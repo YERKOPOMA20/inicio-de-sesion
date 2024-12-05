@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro e Inicio de Sesión</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="date"], input[type="email"], input[type="password"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group:last-of-type {
+            margin-bottom: 0;
+        }
+    </style>
+    <script>
+        function generateEmail() {
+            let nombre = document.getElementById("nombre").value;
+            let apellido = document.getElementById("apellido").value;
+            let fechaNacimiento = document.getElementById("fecha_nacimiento").value;
+            let nombreProcesado = nombre.toLowerCase().split(" ").map(n => n.charAt(0)).join("") + nombre.split(" ").slice(-1)[0];
+            let apellidoProcesado = apellido.toLowerCase().split(" ").map(a => a.charAt(0)).join("") + apellido.split(" ").slice(-1)[0];
+            let fecha = fechaNacimiento.split("-")[0].slice(-2);
+            let correo = apellidoProcesado + nombreProcesado + fecha + "@example.com";
+            document.getElementById("correo").value = correo;
+        }
+
+        function registerUser() {
+            let correo = document.getElementById("correo").value;
+            let contraseña = document.getElementById("contraseña").value;
+            document.getElementById("correo_login").value = correo;
+            document.getElementById("contraseña_login").value = contraseña;
+            alert("Usuario registrado con éxito");
+        }
+
+        function loginUser() {
+            alert("Inicio de sesión exitoso");
+        }
+
+        function validatePassword() {
+            let contraseña = document.getElementById("contraseña").value;
+            let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+            if (!regex.test(contraseña)) {
+                alert("La contraseña debe tener al menos 8 caracteres, incluyendo mayúsculas, minúsculas, números y caracteres especiales.");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Formulario de Registro</h2>
+        <form onsubmit="event.preventDefault(); if(validatePassword()) registerUser();">
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="apellido">Apellido:</label>
+                <input type="text" id="apellido" name="apellido" required>
+            </div>
+            <div class="form-group">
+                <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+                <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
+            </div>
+            <div class="form-group">
+                <label for="correo">Correo Electrónico:</label>
+                <input type="email" id="correo" name="correo" required onfocus="generateEmail()" readonly>
+            </div>
+            <div class="form-group">
+                <label for="contraseña">Contraseña:</label>
+                <input type="password" id="contraseña" name="contraseña" required>
+            </div>
+            <button type="submit">Registrar</button>
+        </form>
+
+        <h2>Formulario de Inicio de Sesión</h2>
+        <form onsubmit="event.preventDefault(); loginUser();">
+            <div class="form-group">
+                <label for="correo_login">Correo Electrónico:</label>
+                <input type="email" id="correo_login" name="correo_login" required>
+            </div>
+            <div class="form-group">
+                <label for="contraseña_login">Contraseña:</label>
+                <input type="password" id="contraseña_login" name="contraseña_login" required>
+            </div>
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+    </div>
+</body>
+</html>
